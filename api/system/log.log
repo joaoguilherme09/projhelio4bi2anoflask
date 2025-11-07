@@ -1,0 +1,306 @@
+[2025-10-31T21:36:08.442302] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:36:58.062218] [ERROR]
+HotelControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:37:16.243288] [ERROR]
+ReservaControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:37:27.771258] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:37:31.018933] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:37:45.539196] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:37:49.217853] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:37:58.385032] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:42:21.656853] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:42:23.247635] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:42:24.276856] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:42:24.690960] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:42:24.902792] [ERROR]
+HospedeControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:43:05.893153] [ERROR]
+Not all parameters were used in the SQL statement
+--------------------------------------------------------------------------------
+[2025-10-31T21:45:28.345756] [ERROR]
+Not all parameters were used in the SQL statement
+--------------------------------------------------------------------------------
+[2025-10-31T21:46:32.688985] [ERROR]
+HotelControl.show() takes 1 positional argument but 2 were given
+--------------------------------------------------------------------------------
+[2025-10-31T21:50:52.469395] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'Hotel' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T21:50:52.506064] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T21:52:56.504200] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'nomeHospede' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T21:52:56.561440] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T21:52:58.473220] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'nomeHospede' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T21:52:58.491413] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T21:53:18.999336] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'nomeHospede' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T21:53:19.015002] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T21:53:21.100949] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'nomeHospede' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T21:53:21.110510] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T22:01:31.257149] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-10-31T22:02:23.746991] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:02:58.618571] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:03:00.090362] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:34.047259] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:35.430085] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:36.177209] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:36.468039] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:36.616307] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:36.848471] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:36.987076] [ERROR]
+1054 (42S22): Unknown column 'nomeHospede' in 'where clause'
+--------------------------------------------------------------------------------
+[2025-10-31T22:04:54.648670] [ERROR]
+Campo inválido para busca: nome
+--------------------------------------------------------------------------------
+[2025-10-31T22:05:56.781601] [ERROR]
+Campo inválido para busca: nome
+--------------------------------------------------------------------------------
+[2025-10-31T22:11:40.556575] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'Hospede' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T22:11:40.596706] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T22:11:53.209190] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'Hospede' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T22:11:53.224351] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T22:31:43.881878] [ERROR]
+[400] Erro na validação de dados | Detalhes: {'message': "O campo 'Hospede' é obrigatório!"}
+--------------------------------------------------------------------------------
+[2025-10-31T22:31:43.895402] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T22:32:14.569600] [ERROR]
+Could not process parameters: int(17), it must be of type list, tuple or dict
+--------------------------------------------------------------------------------
+[2025-10-31T22:32:56.926413] [ERROR]
+Could not process parameters: int(17), it must be of type list, tuple or dict
+--------------------------------------------------------------------------------
+[2025-10-31T22:34:15.651190] [ERROR]
+Could not process parameters: int(17), it must be of type list, tuple or dict
+--------------------------------------------------------------------------------
+[2025-10-31T22:34:17.909721] [ERROR]
+Could not process parameters: int(17), it must be of type list, tuple or dict
+--------------------------------------------------------------------------------
+[2025-10-31T22:36:17.454602] [ERROR]
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+--------------------------------------------------------------------------------
+[2025-10-31T22:37:15.032059] [ERROR]
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+--------------------------------------------------------------------------------
+[2025-10-31T22:37:27.390002] [ERROR]
+[400] Hospede não encontrado | Detalhes: {'message': 'idHospede 1 não existe'}
+--------------------------------------------------------------------------------
+[2025-10-31T22:37:27.451879] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T22:38:05.511708] [ERROR]
+[400] Hospede não encontrado | Detalhes: {'message': 'idHospede 1 não existe'}
+--------------------------------------------------------------------------------
+[2025-10-31T22:38:05.542966] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-10-31T22:38:40.998328] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:40:58.174603] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:40:59.553068] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:41:00.607234] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:41:58.875924] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:43:06.352305] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:43:10.197599] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:43:31.301237] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:43:32.691878] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-10-31T22:44:12.683093] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-11-01T00:25:45.095380] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-11-01T00:26:16.537092] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-11-01T00:27:58.112780] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-11-01T00:36:21.364582] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-11-01T00:36:22.719486] [ERROR]
+'<' not supported between instances of 'datetime.date' and 'datetime.datetime'
+--------------------------------------------------------------------------------
+[2025-11-01T00:36:39.798016] [ERROR]
+[400] Conflito de reserva | Detalhes: {'message': 'Já existe uma reserva para este hotel neste período.'}
+--------------------------------------------------------------------------------
+[2025-11-01T00:36:39.817222] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-11-01T00:37:48.544000] [ERROR]
+[400] Conflito de reserva | Detalhes: {'message': 'Já existe uma reserva para este hotel neste período.'}
+--------------------------------------------------------------------------------
+[2025-11-01T00:37:48.563604] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:13.840574] [ERROR]
+[400] Conflito de reserva | Detalhes: {'message': 'Já existe uma reserva para este hotel neste período.'}
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:13.861363] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:15.401748] [ERROR]
+[400] Conflito de reserva | Detalhes: {'message': 'Já existe uma reserva para este hotel neste período.'}
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:15.414994] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:33.901903] [ERROR]
+[400] Conflito de reserva | Detalhes: {'message': 'Já existe uma reserva para este hotel neste período.'}
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:33.915973] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:35.050445] [ERROR]
+[400] Conflito de reserva | Detalhes: {'message': 'Já existe uma reserva para este hotel neste período.'}
+--------------------------------------------------------------------------------
+[2025-11-01T00:39:35.061495] [ERROR]
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+--------------------------------------------------------------------------------
+[2025-11-01T00:42:52.430135] [ERROR]
+Could not process parameters: int(6), it must be of type list, tuple or dict
+--------------------------------------------------------------------------------
+[2025-11-01T00:43:16.961929] [ERROR]
+Could not process parameters: int(6), it must be of type list, tuple or dict
+--------------------------------------------------------------------------------
+[2025-11-01T00:43:21.501404] [ERROR]
+Could not process parameters: int(6), it must be of type list, tuple or dict
+--------------------------------------------------------------------------------
+[2025-11-02T00:02:19.687556] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:02:25.235304] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:02:25.700918] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:02:25.898607] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:02:48.396273] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:02:52.042899] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:03:47.831228] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:04:24.269395] [ERROR]
+email em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T00:12:54.905741] [ERROR]
+email em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T01:20:50.246888] [ERROR]
+email em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T01:28:59.693871] [ERROR]
+telefone em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-02T12:34:43.212304] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-03T12:55:03.991088] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-03T12:55:32.408166] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-03T12:55:37.676645] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-03T12:57:16.154564] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------
+[2025-11-03T12:57:53.636633] [ERROR]
+CPF em formato inválido.
+--------------------------------------------------------------------------------

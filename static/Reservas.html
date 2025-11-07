@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heliotel - CRUD Reservas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    /* ======== ESTILO PADRÃO HELIOTEL (TEMA ESCURO) ======== */
+    body {
+      background: #121212;
+      color: #e0e0e0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+
+    .content-card {
+      background: #1e1e1e;
+      border-radius: 12px;
+      border: 1px solid #2e2e2e;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      margin-bottom: 2rem;
+    }
+
+    h2, h4, h6 {
+      color: #3ddc84;
+      font-weight: bold;
+    }
+
+    label, small, p, a {
+      color: #ccc;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #3ddc84;
+    }
+
+    /* ======== BOTÕES ======== */
+    .btn {
+      font-weight: bold;
+      border: none;
+      transition: 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: #3ddc84;
+      color: #121212;
+    }
+
+    .btn-primary:hover {
+      background: #34c276;
+      color: #000;
+    }
+
+    .btn-success {
+      background: #3ddc84;
+      color: #121212;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+    }
+
+    .btn-warning {
+      background: #ffc107;
+      color: #000;
+    }
+
+    .btn-info {
+      background: #0dcaf0;
+      color: #000;
+    }
+
+    /* ======== INPUTS E FORMULÁRIOS ======== */
+    .form-control {
+      background: #2b2b2b;
+      border: 1px solid #444;
+      color: #e0e0e0;
+    }
+
+    .form-control:focus {
+      background: #333;
+      border-color: #3ddc84;
+      color: #fff;
+      box-shadow: 0 0 0 0.2rem rgba(61, 220, 132, 0.25);
+    }
+
+    /* ======== TABELAS ======== */
+    .table {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    .table th {
+      background-color: #2a2a2a !important;
+      color: #3ddc84;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: rgba(61, 220, 132, 0.1);
+    }
+
+    /* ======== ALERTAS ======== */
+    .alert {
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+      border: 1px solid #444;
+    }
+
+    /* ======== SCROLLBAR ======== */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #3ddc84;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1e1e1e;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="content-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2>📅 CRUD Completo - Reservas</h2>
+                    <p class="text-muted mb-0">Operações completas de Create, Read, Update e Delete</p>
+                </div>
+                <a href="dashboard.html" class="btn btn-secondary">← Voltar</a>
+            </div>
+        </div>
+
+        <!-- 🔍 DIV 1: BUSCAR TODAS AS RESERVAS -->
+        <div class="content-card operation-card">
+            <h4 class="text-primary mb-3">🔍 BUSCAR TODAS AS RESERVAS</h4>
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <p class="mb-2">Recupere a lista completa de todas as reservas cadastradas no sistema.</p>
+                    <small class="text-muted">Operação: GET /api/v1/reservas</small>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-info btn-lg" onclick="buscarTodasReservas()">
+                        <i class="bi bi-search"></i> Buscar Todas
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Resultado da Busca -->
+            <div id="resultadoBuscarTodas" class="mt-3" style="display: none;">
+                <h6>Resultado:</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>ID Hospede</th>
+                                <th>ID Hotel</th>
+                                <th>Data Entrada</th>
+                                <th>Data Saída</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaBuscarTodas">
+                            <!-- Dados serão preenchidos via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔎 DIV 2: BUSCAR RESERVA POR ID -->
+        <div class="content-card operation-card">
+            <h4 class="text-primary mb-3">🔎 BUSCAR RESERVA POR ID</h4>
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <label for="inputBuscarId" class="form-label">ID da Reserva:</label>
+                    <input type="number" class="form-control" id="inputBuscarId" placeholder="Ex: 1" min="1">
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-0">Busque uma reserva específica pelo seu ID único.</p>
+                    <small class="text-muted">Operação: GET /api/v1/reservas/{id}</small>
+                </div>
+                <div class="col-md-2 text-end">
+                    <button class="btn btn-info" onclick="buscarReservaPorId()">
+                        <i class="bi bi-search"></i> Buscar por ID
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Resultado da Busca por ID -->
+            <div id="resultadoBuscarPorId" class="mt-3" style="display: none;">
+                <h6>Resultado:</h6>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="detalhesReserva">
+                            <!-- Detalhes serão preenchidos via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ➕ DIV 3: CRIAR NOVA RESERVA -->
+        <div class="content-card operation-card">
+            <h4 class="text-success mb-3">➕ CRIAR NOVA RESERVA</h4>
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="mb-3">Cadastre uma nova reserva no sistema preenchendo os dados abaixo.</p>
+                    
+                    <form id="formCriarReserva">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="criarIdHospede" class="form-label">ID Hospede *</label>
+                                <input type="number" class="form-control" id="criarIdHospede" placeholder="Ex: 1" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="criarIdHotel" class="form-label">ID Hotel *</label>
+                                <input type="number" class="form-control" id="criarIdHotel" placeholder="Ex: 1" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="criarDataEntrada" class="form-label">Data Entrada *</label>
+                                <input type="date" class="form-control" id="criarDataEntrada" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="criarDataSaida" class="form-label">Data Saída *</label>
+                                <input type="date" class="form-control" id="criarDataSaida" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success btn-lg" onclick="criarReserva()">
+                            <i class="bi bi-plus-circle"></i> Criar Reserva
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="limparFormularioCriar()">
+                            <i class="bi bi-arrow-clockwise"></i> Limpar
+                        </button>
+                    </div>
+                    <small class="text-muted mt-2 d-block">Operação: POST /api/v1/reservas</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- ✏️ DIV 4: ATUALIZAR RESERVA -->
+        <div class="content-card operation-card">
+            <h4 class="text-warning mb-3">✏️ ATUALIZAR RESERVA</h4>
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="mb-3">Atualize os dados de uma reserva existente. Primeiro busque pelo ID, depois edite os campos.</p>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="inputIdAtualizar" class="form-label">ID da Reserva para Editar:</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="inputIdAtualizar" placeholder="Ex: 1" min="1">
+                                <button class="btn btn-outline-info" type="button" onclick="carregarDadosParaEdicao()">
+                                    <i class="bi bi-download"></i> Carregar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="formAtualizarReserva">
+                        <input type="hidden" id="atualizarId">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="atualizarIdHospede" class="form-label">ID Hospede *</label>
+                                <input type="number" class="form-control" id="atualizarIdHospede" placeholder="Ex: 1" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="atualizarIdHotel" class="form-label">ID Hotel *</label>
+                                <input type="number" class="form-control" id="atualizarIdHotel" placeholder="Ex: 1" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="atualizarDataEntrada" class="form-label">Data Entrada *</label>
+                                <input type="date" class="form-control" id="atualizarDataEntrada" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="atualizarDataSaida" class="form-label">Data Saída *</label>
+                                <input type="date" class="form-control" id="atualizarDataSaida" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-warning btn-lg" onclick="atualizarReserva()" id="btnAtualizar" disabled>
+                            <i class="bi bi-pencil-square"></i> Atualizar Reserva
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="limparFormularioAtualizar()">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </button>
+                    </div>
+                    <small class="text-muted mt-2 d-block">Operação: PUT /api/v1/reservas/{id}</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🗑️ DIV 5: DELETAR RESERVA -->
+        <div class="content-card operation-card">
+            <h4 class="text-danger mb-3">🗑️ DELETAR RESERVA</h4>
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <label for="inputIdDeletar" class="form-label">ID da Reserva para Deletar:</label>
+                    <input type="number" class="form-control" id="inputIdDeletar" placeholder="Ex: 1" min="1">
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-2 text-danger"><strong>Atenção:</strong> Esta ação não pode ser desfeita!</p>
+                    <small class="text-muted">Operação: DELETE /api/v1/reservas/{id}</small>
+                </div>
+                <div class="col-md-2 text-end">
+                    <button class="btn btn-danger btn-lg" onclick="solicitarDelecao()">
+                        <i class="bi bi-trash"></i> Deletar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📊 DIV 6: LISTA COMPLETA EM TEMPO REAL -->
+        <div class="content-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>📊 LISTA COMPLETA DE RESERVAS</h4>
+                <button class="btn btn-outline-primary" onclick="atualizarListaCompletaReservas()">
+                    <i class="bi bi-arrow-clockwise"></i> Atualizar Lista
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>ID Hospede</th>
+                            <th>ID Hotel</th>
+                            <th>Data Entrada</th>
+                            <th>Data Saída</th>
+                            <th>Ações Rápidas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaReservasCompleta">
+                        <tr>
+                            <td colspan="6" class="text-center">Carregando...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ✅ NOVO: Container para mensagens globais (fixo no canto) -->
+        <div id="divMensagemGlobal"></div>
+    </div>
+
+    <script type="module">
+        import ApiService from './ApiService.js';
+
+        // ==================== CONFIGURAÇÃO INICIAL ====================
+        console.log("🚀 Inicializando CRUD Completo de Reservas...");
+
+        // Verificar autenticação
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        if (!userData) {
+            window.location.href = "./login.html";
+        }
+
+        const token = userData.data?.token || userData.token;
+        const api = new ApiService(token, "http://127.0.0.1:8000");
+
+        // ==================== FUNÇÕES DE UI MELHORADAS ====================
+        
+        /**
+         * ✅ FUNÇÃO MELHORADA: Mostra mensagem com auto-dismiss
+         */
+        function mostrarMensagem(mensagem, tipo = 'info', tempoDuracao = 5000) {
+            console.log(`💬 MENSAGEM [${tipo}]: ${mensagem}`);
+            
+            const divMensagem = document.getElementById('divMensagemGlobal');
+            
+            // Mapear tipos para classes Bootstrap
+            const tipoClasse = {
+                'info': 'info',
+                'success': 'success',
+                'warning': 'warning',
+                'danger': 'danger',
+                'error': 'danger'
+            }[tipo] || 'info';
+            
+            // Criar alerta
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${tipoClasse} alert-fixed alert-dismissible fade show`;
+            alertDiv.role = 'alert';
+            alertDiv.innerHTML = `
+                ${mensagem}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            // Adicionar ao container
+            divMensagem.appendChild(alertDiv);
+            
+            // Auto-remover após X segundos
+            setTimeout(() => {
+                alertDiv.classList.remove('show');
+                setTimeout(() => alertDiv.remove(), 300);
+            }, tempoDuracao);
+        }
+
+        /**
+         * ✅ FUNÇÃO NOVA: Formata data para exibição
+         */
+        function formatarData(dataString) {
+            if (!dataString) return 'N/A';
+            
+            try {
+                // Remove timestamp se existir (2025-01-15T00:00:00 → 2025-01-15)
+                const dataLimpa = dataString.split('T')[0];
+                const data = new Date(dataLimpa + 'T00:00:00');
+                
+                return data.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            } catch (error) {
+                console.error("Erro ao formatar data:", error);
+                return dataString;
+            }
+        }
+
+        /**
+         * ✅ FUNÇÃO NOVA: Formata data para input[type=date]
+         */
+        function formatarDataParaInput(dataString) {
+            if (!dataString) return '';
+            
+            try {
+                // Remove timestamp e retorna YYYY-MM-DD
+                return dataString.split('T')[0];
+            } catch (error) {
+                console.error("Erro ao formatar data para input:", error);
+                return '';
+            }
+        }
+
+        // ==================== OPERAÇÕES CRUD ====================
+
+        // 🔍 1. BUSCAR TODAS AS RESERVAS
+        window.buscarTodasReservas = async function() {
+            console.log("📋 BUSCAR TODAS RESERVAS - Iniciando...");
+            
+            try {
+                const response = await api.get('/api/v1/reservas');
+                console.log("📦 BUSCAR TODAS - Resposta COMPLETA:", response);
+                
+                // ✅ CORREÇÃO: Acesso correto à estrutura de dados
+                let reservas = [];
+                
+                if (response.success && response.data?.reservas) {
+                    reservas = response.data.reservas;
+                    console.log(`✅ ${reservas.length} reservas encontradas (estrutura: data.reservas)`);
+                } else if (response.success && Array.isArray(response.data)) {
+                    reservas = response.data;
+                    console.log(`✅ ${reservas.length} reservas encontradas (estrutura: data array)`);
+                } else {
+                    console.warn("⚠️ Resposta sem reservas ou estrutura inesperada:", response);
+                    mostrarMensagem("Nenhuma reserva encontrada", 'info');
+                    return;
+                }
+                
+                console.log(`📊 BUSCAR TODAS - ${reservas.length} reservas processadas`);
+                
+                if (reservas.length === 0) {
+                    mostrarMensagem("Nenhuma reserva encontrada", 'info');
+                    document.getElementById('tabelaBuscarTodas').innerHTML = 
+                        '<tr><td colspan="5" class="text-center">Nenhuma reserva encontrada</td></tr>';
+                } else {
+                    popularTabelaReservas(reservas);
+                    mostrarMensagem(`✅ ${reservas.length} reservas carregadas`, 'success');
+                }
+                
+            } catch (error) {
+                console.error("❌ BUSCAR TODAS - Erro:", error);
+                mostrarMensagem(`❌ Erro ao carregar reservas: ${error.message}`, 'error');
+            }
+        }
+
+        // 🔎 2. BUSCAR RESERVA POR ID
+        window.buscarReservaPorId = async function() {
+            console.log("🔍 BUSCAR POR ID - Iniciando...");
+            
+            try {
+                const id = document.getElementById('inputBuscarId').value.trim();
+                
+                if (!id) {
+                    mostrarMensagem("⚠️ Digite um ID para buscar", 'warning');
+                    return;
+                }
+                
+                console.log("🔍 BUSCAR POR ID - Buscando ID:", id);
+                const response = await api.getById('/api/v1/reservas', id);
+                console.log("📦 BUSCAR POR ID - Resposta:", response);
+                
+                // ✅ CORREÇÃO: Verificar estrutura correta
+                let reserva = null;
+                
+                if (response.success && response.data?.reserva) {
+                    reserva = response.data.reserva;
+                } else if (response.success && response.data && !response.data.reserva) {
+                    // Caso data seja o objeto direto
+                    reserva = response.data;
+                } else if (!response.success) {
+                    throw new Error(response.error?.message || "Reserva não encontrada");
+                }
+                
+                if (!reserva || !reserva.idReserva) {
+                    throw new Error("Reserva não encontrada");
+                }
+                
+                console.log("✅ BUSCAR POR ID - Reserva encontrada:", reserva);
+                
+                // Mostrar resultado
+                const resultadoDiv = document.getElementById('resultadoBuscarPorId');
+                const detalhesDiv = document.getElementById('detalhesReserva');
+                
+                if (resultadoDiv && detalhesDiv) {
+                    detalhesDiv.innerHTML = `
+                        <p><strong>ID:</strong> ${reserva.idReserva}</p>
+                        <p><strong>ID Hospede:</strong> ${reserva.idHospede}</p>
+                        <p><strong>ID Hotel:</strong> ${reserva.idHotel}</p>
+                        <p><strong>Data Entrada:</strong> ${formatarData(reserva.inicio)}</p>
+                        <p><strong>Data Saída:</strong> ${formatarData(reserva.fim)}</p>
+                    `;
+                    resultadoDiv.style.display = 'block';
+                    
+                    // Scroll suave para resultado
+                    resultadoDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                
+                mostrarMensagem("✅ Reserva encontrada!", 'success');
+                
+            } catch (error) {
+                console.error("❌ BUSCAR POR ID - Erro:", error);
+                mostrarMensagem(`❌ ${error.message}`, 'danger');
+                
+                // Esconder resultado se houver erro
+                const resultadoDiv = document.getElementById('resultadoBuscarPorId');
+                if (resultadoDiv) {
+                    resultadoDiv.style.display = 'none';
+                }
+            }
+        }
+
+        // ➕ 3. CRIAR RESERVA
+        window.criarReserva = async function() {
+            console.log("➕ CRIAR RESERVA - Iniciando...");
+            
+            // Verificar se elementos existem
+            const idHospedeElem = document.getElementById('criarIdHospede');
+            const idHotelElem = document.getElementById('criarIdHotel');
+            const dataEntradaElem = document.getElementById('criarDataEntrada');
+            const dataSaidaElem = document.getElementById('criarDataSaida');
+            
+            if (!idHospedeElem || !idHotelElem || !dataEntradaElem || !dataSaidaElem) {
+                console.error("❌ Elementos do formulário não encontrados");
+                mostrarMensagem("❌ Erro: Formulário incompleto", "error");
+                return;
+            }
+
+            // Validar campos vazios
+            if (!idHospedeElem.value || !idHotelElem.value || !dataEntradaElem.value || !dataSaidaElem.value) {
+                mostrarMensagem("⚠️ Preencha todos os campos obrigatórios", "warning");
+                return;
+            }
+            
+            // ✅ CORREÇÃO: Usar "inicio" e "fim" conforme backend espera
+            const dados = {
+                Reserva: {
+                    idHospede: parseInt(idHospedeElem.value),
+                    idHotel: parseInt(idHotelElem.value),
+                    inicio: dataEntradaElem.value,
+                    fim: dataSaidaElem.value
+                }
+            };
+
+            console.log("➕ CRIAR - Dados a enviar:", dados);
+
+            try {
+                const response = await api.post("/api/v1/reservas", dados);
+                console.log("📦 CRIAR - Resposta:", response);
+                
+                // ✅ CORREÇÃO: Verificar sucesso corretamente
+                if (response.success) {
+                    // Extrair ID da reserva criada
+                    let idReserva = "N/A";
+                    
+                    if (response.data?.reservas && response.data.reservas.length > 0) {
+                        idReserva = response.data.reservas[0].idReserva;
+                    } else if (response.data?.idReserva) {
+                        idReserva = response.data.idReserva;
+                    }
+                    
+                    mostrarMensagem(`✅ Reserva criada com sucesso! ID: ${idReserva}`, "success");
+                    limparFormularioCriar();
+                    
+                    // Atualizar lista automaticamente
+                    await atualizarListaCompletaReservas();
+                } else {
+                    throw new Error(response.error?.message || "Erro ao criar reserva");
+                }
+            } catch (error) {
+                console.error("❌ CRIAR - Erro:", error);
+                
+                // ✅ MELHOR TRATAMENTO DE ERROS
+                let mensagemErro = error.message;
+                
+                // Se houver detalhes nos erros (do middleware/service)
+                if (error.response?.data?.error?.errors) {
+                    mensagemErro = error.response.data.error.errors.join(', ');
+                }
+                
+                mostrarMensagem(`❌ Erro ao criar reserva: ${mensagemErro}`, "error");
+            }
+        }
+
+        // ✏️ 4. ATUALIZAR RESERVA
+        window.carregarDadosParaEdicao = async function() {
+            const id = document.getElementById('inputIdAtualizar').value.trim();
+            
+            if (!id) {
+                mostrarMensagem("⚠️ Informe o ID da reserva para editar", "warning");
+                return;
+            }
+
+            console.log(`✏️ CARREGAR PARA EDIÇÃO - ID: ${id}`);
+            
+            try {
+                const response = await api.getById("/api/v1/reservas", id);
+                console.log("📦 CARREGAR EDIÇÃO - Resposta:", response);
+                
+                // ✅ CORREÇÃO: Verificar estrutura correta
+                let reserva = null;
+                
+                if (response.success && response.data?.reserva) {
+                    reserva = response.data.reserva;
+                } else if (response.success && response.data && response.data.idReserva) {
+                    reserva = response.data;
+                } else {
+                    throw new Error(response.error?.message || "Reserva não encontrada");
+                }
+                
+                if (!reserva) {
+                    throw new Error("Reserva não encontrada");
+                }
+                
+                console.log("✅ Dados carregados:", reserva);
+                
+                // Preencher formulário de edição
+                document.getElementById('atualizarId').value = reserva.idReserva;
+                document.getElementById('atualizarIdHospede').value = reserva.idHospede || '';
+                document.getElementById('atualizarIdHotel').value = reserva.idHotel || '';
+                document.getElementById('atualizarDataEntrada').value = formatarDataParaInput(reserva.inicio);
+                document.getElementById('atualizarDataSaida').value = formatarDataParaInput(reserva.fim);
+                
+                // Habilitar botão de atualizar
+                document.getElementById('btnAtualizar').disabled = false;
+                
+                mostrarMensagem("✅ Dados carregados para edição", "info");
+            } catch (error) {
+                console.error("❌ CARREGAR EDIÇÃO - Erro:", error);
+                mostrarMensagem(`❌ ${error.message}`, "danger");
+            }
+        };
+
+        window.atualizarReserva = async function() {
+            const id = document.getElementById('atualizarId').value;
+            
+            if (!id) {
+                mostrarMensagem("⚠️ Nenhuma reserva carregada para edição", "warning");
+                return;
+            }
+
+            // ✅ CORREÇÃO: Usar "inicio" e "fim"
+            const dados = {
+                Reserva: {
+                    idHospede: parseInt(document.getElementById('atualizarIdHospede').value),
+                    idHotel: parseInt(document.getElementById('atualizarIdHotel').value),
+                    inicio: document.getElementById('atualizarDataEntrada').value,
+                    fim: document.getElementById('atualizarDataSaida').value
+                }
+            };
+
+            console.log(`✏️ ATUALIZAR - ID: ${id}, Dados:`, dados);
+            
+            try {
+                const response = await api.put("/api/v1/reservas", id, dados);
+                console.log("📦 ATUALIZAR - Resposta:", response);
+                
+                if (response.success) {
+                    mostrarMensagem("✅ Reserva atualizada com sucesso!", "success");
+                    limparFormularioAtualizar();
+                     // Atualizar lista automaticamente
+                await atualizarListaCompletaReservas();
+            } else {
+                throw new Error(response.error?.message || "Erro ao atualizar reserva");
+            }
+        } catch (error) {
+            console.error("❌ ATUALIZAR - Erro:", error);
+            
+            // ✅ MELHOR TRATAMENTO DE ERROS
+            let mensagemErro = error.message;
+            
+            // Se houver detalhes nos erros
+            if (error.response?.data?.error?.errors) {
+                mensagemErro = error.response.data.error.errors.join(', ');
+            }
+            
+            mostrarMensagem(`❌ Erro ao atualizar: ${mensagemErro}`, "danger");
+        }
+    };
+
+    // 🗑️ 5. DELETAR RESERVA
+    window.solicitarDelecao = function() {
+        const id = document.getElementById('inputIdDeletar').value.trim();
+        
+        if (!id) {
+            mostrarMensagem("⚠️ Informe o ID da reserva para deletar", "warning");
+            return;
+        }
+
+        if (confirm(`⚠️ Tem certeza que deseja deletar a reserva ID ${id}?\n\nEsta ação não pode ser desfeita!`)) {
+            executarDelecao(id);
+        }
+    };
+
+    async function executarDelecao(id) {
+        console.log(`🗑️ DELETAR - ID: ${id}`);
+        
+        try {
+            const response = await api.delete("/api/v1/reservas", id);
+            console.log("📦 DELETAR - Resposta:", response);
+            
+            // ✅ CORREÇÃO: Verificar sucesso corretamente
+            if (response.success || response.message === "Excluído com sucesso") {
+                mostrarMensagem("✅ Reserva deletada com sucesso!", "success");
+                document.getElementById('inputIdDeletar').value = '';
+                
+                // Atualizar lista automaticamente
+                await atualizarListaCompletaReservas();
+            } else {
+                throw new Error(response.error?.message || "Erro ao deletar reserva");
+            }
+        } catch (error) {
+            console.error("❌ DELETAR - Erro:", error);
+            mostrarMensagem(`❌ Erro ao deletar: ${error.message}`, "danger");
+        }
+    }
+
+    // 📊 6. LISTA COMPLETA
+    window.atualizarListaCompletaReservas = async function() {
+        console.log("📊 ATUALIZAR LISTA COMPLETA RESERVAS - Iniciando...");
+        
+        try {
+            const response = await api.get('/api/v1/reservas');
+            console.log("📦 LISTA COMPLETA - Resposta:", response);
+            
+            // ✅ CORREÇÃO: Acesso correto à estrutura
+            let reservas = [];
+            
+            if (response.success && response.data?.reservas) {
+                reservas = response.data.reservas;
+            } else if (response.success && Array.isArray(response.data)) {
+                reservas = response.data;
+            } else {
+                console.warn("⚠️ Estrutura inesperada:", response);
+            }
+            
+            popularListaCompletaReservas(reservas);
+            
+            if (reservas.length > 0) {
+                mostrarMensagem(`✅ Lista atualizada: ${reservas.length} reservas`, 'success', 2000);
+            }
+            
+        } catch (error) {
+            console.error("❌ ATUALIZAR LISTA - Erro:", error);
+            mostrarMensagem(`❌ Erro ao atualizar lista: ${error.message}`, 'error');
+        }
+    }
+
+    // ==================== FUNÇÕES AUXILIARES ====================
+
+    /**
+     * ✅ FUNÇÃO PARA POPULAR TABELA DE RESULTADOS
+     */
+    window.popularTabelaReservas = function(reservas) {
+        console.log("🎨 POPULAR TABELA RESERVAS - Iniciando...");
+        console.log("📊 Reservas recebidas:", reservas);
+        
+        const tbody = document.getElementById('tabelaBuscarTodas');
+        const resultadoDiv = document.getElementById('resultadoBuscarTodas');
+        
+        if (!tbody) {
+            console.error("❌ Elemento #tabelaBuscarTodas não encontrado");
+            return;
+        }
+        
+        // Limpar tabela
+        tbody.innerHTML = '';
+        
+        if (!reservas || reservas.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Nenhuma reserva encontrada</td></tr>';
+        } else {
+            // Adicionar cada reserva na tabela
+            reservas.forEach(reserva => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>#${reserva.idReserva}</strong></td>
+                    <td>${reserva.idHospede}</td>
+                    <td>${reserva.idHotel}</td>
+                    <td>${formatarData(reserva.inicio)}</td>
+                    <td>${formatarData(reserva.fim)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Mostrar a seção de resultados
+        if (resultadoDiv) {
+            resultadoDiv.style.display = 'block';
+            
+            // Scroll suave para a seção de resultados
+            setTimeout(() => {
+                resultadoDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+        
+        console.log(`✅ Tabela de reservas populada com ${reservas.length} reservas`);
+    }
+
+    /**
+     * ✅ FUNÇÃO PARA POPULAR LISTA COMPLETA
+     */
+    window.popularListaCompletaReservas = function(reservas) {
+        console.log("🎨 POPULAR LISTA COMPLETA RESERVAS - Iniciando...");
+        
+        const tbody = document.getElementById('tabelaReservasCompleta');
+        
+        if (!tbody) {
+            console.error("❌ Elemento #tabelaReservasCompleta não encontrado");
+            return;
+        }
+        
+        tbody.innerHTML = '';
+        
+        if (!reservas || reservas.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Nenhuma reserva cadastrada</td></tr>';
+        } else {
+            reservas.forEach(res => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>#${res.idReserva}</strong></td>
+                    <td>${res.idHospede}</td>
+                    <td>${res.idHotel}</td>
+                    <td>${formatarData(res.inicio)}</td>
+                    <td>${formatarData(res.fim)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-warning action-btn" 
+                                onclick="preencherEdicaoRapidaReserva(${res.idReserva})"
+                                title="Editar reserva">
+                            ✏️ Editar
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger action-btn" 
+                                onclick="delecaoRapidaReserva(${res.idReserva})"
+                                title="Excluir reserva">
+                            🗑️ Excluir
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        console.log(`✅ Lista completa de reservas populada com ${reservas.length} reservas`);
+    }
+
+    /**
+     * ✅ LIMPAR FORMULÁRIO DE CRIAÇÃO
+     */
+    window.limparFormularioCriar = function() {
+        console.log("🧹 Limpando formulário de criação");
+        document.getElementById('formCriarReserva').reset();
+    };
+
+    /**
+     * ✅ LIMPAR FORMULÁRIO DE ATUALIZAÇÃO
+     */
+    window.limparFormularioAtualizar = function() {
+        console.log("🧹 Limpando formulário de atualização");
+        document.getElementById('formAtualizarReserva').reset();
+        document.getElementById('atualizarId').value = '';
+        document.getElementById('btnAtualizar').disabled = true;
+        document.getElementById('inputIdAtualizar').value = '';
+    };
+
+    /**
+     * ✅ EDIÇÃO RÁPIDA - Preenche formulário de edição com dados da reserva
+     */
+    window.preencherEdicaoRapidaReserva = function(id) {
+        console.log(`⚡ Edição rápida - ID: ${id}`);
+        document.getElementById('inputIdAtualizar').value = id;
+        carregarDadosParaEdicao();
+        
+        // Scroll para a seção de edição
+        const secaoEdicao = document.querySelector('.content-card h4.text-warning');
+        if (secaoEdicao) {
+            setTimeout(() => {
+                secaoEdicao.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    };
+
+    /**
+     * ✅ DELEÇÃO RÁPIDA - Deleta com confirmação
+     */
+    window.delecaoRapidaReserva = function(id) {
+        console.log(`⚡ Deleção rápida - ID: ${id}`);
+        
+        if (confirm(`⚠️ Deletar reserva ID ${id}?\n\nEsta ação não pode ser desfeita!`)) {
+            executarDelecao(id);
+        }
+    };
+
+    // ==================== INICIALIZAÇÃO ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("🚀 CRUD Completo de Reservas inicializado");
+        
+        // Carregar lista completa automaticamente
+        atualizarListaCompletaReservas();
+        
+        // ✅ ADICIONAL: Configurar data mínima para hoje nos inputs
+        const hoje = new Date().toISOString().split('T')[0];
+        document.getElementById('criarDataEntrada').setAttribute('min', hoje);
+        document.getElementById('criarDataSaida').setAttribute('min', hoje);
+        document.getElementById('atualizarDataEntrada').setAttribute('min', hoje);
+        document.getElementById('atualizarDataSaida').setAttribute('min', hoje);
+        
+        console.log("✅ Data mínima configurada para:", hoje);
+    });
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

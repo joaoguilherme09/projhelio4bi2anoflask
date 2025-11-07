@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Heliotel - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            border: 1px solid #2e2e2e;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .login-title {
+            color: #3ddc84;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        label {
+            color: #ccc;
+            font-weight: 500;
+        }
+
+        input.form-control {
+            background: #2b2b2b;
+            border: 1px solid #444;
+            color: #e0e0e0;
+        }
+
+        input.form-control:focus {
+            background: #333;
+            border-color: #3ddc84;
+            color: #fff;
+            box-shadow: 0 0 0 0.2rem rgba(61, 220, 132, 0.25);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            font-weight: bold;
+            background: #3ddc84;
+            border: none;
+            color: #121212;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .btn-login:hover {
+            background: #34c276;
+            color: #000;
+        }
+
+        .alert {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+
+        .text-muted {
+            color: #bbb !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1 class="login-title">🏢 Heliotel</h1>
+        <h5 class="text-center text-muted mb-4">Sistema de Reservas</h5>
+
+        <!-- Mensagem de erro/sucesso -->
+        <div id="divMensagem"></div>
+
+        <!-- Formulário de Login -->
+        <form id="formLogin">
+            <div class="mb-3">
+                <label for="txtEmail" class="form-label">Email</label>
+                <input 
+                    type="email" 
+                    id="txtEmail" 
+                    class="form-control" 
+                    placeholder="seu@email.com"
+                    required 
+                />
+            </div>
+
+            <div class="mb-3">
+                <label for="txtSenha" class="form-label">Senha</label>
+                <input 
+                    type="password" 
+                    id="txtSenha" 
+                    class="form-control" 
+                    placeholder="********"
+                    required 
+                />
+            </div>
+
+            <button type="submit" class="btn btn-login" id="btnLogin">
+                Entrar
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            <small class="text-muted">
+                <strong>Teste:</strong> admin@casabranca.com / admin123
+            </small>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        const formLogin = document.getElementById("formLogin");
+        const txtEmail = document.getElementById("txtEmail");
+        const txtSenha = document.getElementById("txtSenha");
+        const btnLogin = document.getElementById("btnLogin");
+        const divMensagem = document.getElementById("divMensagem");
+
+        /**
+         * Exibe mensagem de feedback para o usuário
+         */
+        function mostrarMensagem(mensagem, tipo = "danger") {
+            divMensagem.innerHTML = `
+                <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+                    ${mensagem}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+        }
+
+        /**
+         * Limpa mensagens
+         */
+        function limparMensagem() {
+            divMensagem.innerHTML = "";
+        }
+
+        /**
+         * Faz login na API
+         */
+        async function realizarLogin(email, senha) {
+        try {
+            btnLogin.disabled = true;
+            btnLogin.textContent = "Entrando...";
+
+            const response = await fetch(`${API_URL}/api/v1/auth/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    usuario: {       // ✅ APENAS ESTA CORREÇÃO
+                        email: email,
+                        senha: senha
+                    }
+                })
+            });
+
+            console.log("📡 Status da resposta:", response.status);
+            
+            const data = await response.json();
+            console.log("📦 RESPOSTA COMPLETA DA API:", data);
+
+            if (data.success) {
+                console.log("✅ LOGIN BEM-SUCEDIDO - Salvando no localStorage:");
+                
+                // DEBUG: Mostrar o que vamos salvar
+                console.log("🔑 Token:", data.data.token);
+                console.log("👤 UserData completo:", data.data);
+                
+                // SALVAR NO LOCALSTORAGE
+                localStorage.setItem("token", data.data.token);
+                localStorage.setItem("userData", JSON.stringify(data));
+                
+                // VERIFICAR SE SALVOU
+                console.log("💾 VERIFICAÇÃO APÓS SALVAR:");
+                console.log("🔑 Token salvo:", localStorage.getItem("token"));
+                console.log("📦 UserData salvo:", localStorage.getItem("userData"));
+                
+                mostrarMensagem("Login realizado com sucesso! Redirecionando...", "success");
+
+                // Redirecionar após 2 segundos para ver os logs
+                setTimeout(() => {
+                    console.log("🎯 REDIRECIONANDO PARA DASHBOARD...");
+                    window.location.href = "./dashboard.html";
+                }, 2000);
+            } else {
+                console.log("❌ ERRO NO LOGIN:", data.error);
+                mostrarMensagem(data.error.message || "Erro ao fazer login");
+            }
+        } catch (error) {
+            console.error("💥 ERRO DE CONEXÃO:", error);
+            mostrarMensagem("Erro de conexão com o servidor");
+        } finally {
+            btnLogin.disabled = false;
+            btnLogin.textContent = "Entrar";
+        }
+    }
+
+        /**
+         * Handler do formulário
+         */
+        formLogin.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            limparMensagem();
+
+            const email = txtEmail.value.trim();
+            const senha = txtSenha.value.trim();
+
+            // Validações
+            if (!email) {
+                mostrarMensagem("Por favor, insira seu email");
+                txtEmail.focus();
+                return;
+            }
+
+            if (!senha) {
+                mostrarMensagem("Por favor, insira sua senha");
+                txtSenha.focus();
+                return;
+            }
+
+            await realizarLogin(email, senha);
+        });
+
+    // Após login bem-sucedido:
+    if (data.success) {
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("userData", JSON.stringify(data.data));
+        
+        mostrarMensagem("Login realizado com sucesso!", "success");
+        setTimeout(() => {
+            console.log("🎯 Redirecionando para dashboard...");
+            window.location.href = "./dashboard.html";
+        }, 1000);
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
